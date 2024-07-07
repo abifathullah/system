@@ -66,7 +66,7 @@ class ProductCategoryTest extends TestCase
 
         $response->assertStatus(204);
 
-        $this->assertDatabaseMissing('product_categories', ['id' => $productCategory->id]);
+        $this->assertSoftDeleted('product_categories', ['id' => $productCategory->id]);
     }
 
     #[Test]
