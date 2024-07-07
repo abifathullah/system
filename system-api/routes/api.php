@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\Http\Controllers')->group(function () {
@@ -9,9 +9,10 @@ Route::namespace('App\Http\Controllers')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/logout', 'AuthController@logout');
-        Route::get('/user', function (Request $request) {
-            return $request->user();
-        });
+        Route::apiResource('/users', 'UserController');
+        // Route::get('/user', function (Request $request) {
+        //     return $request->user();
+        // });
 
         Route::controller('ProductCategoryController')->group(function () {
             Route::apiResource('/product-categories', 'ProductCategoryController');

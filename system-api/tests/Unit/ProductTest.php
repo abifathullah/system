@@ -26,13 +26,13 @@ class ProductTest extends TestCase
         $this->category->load('products');
     }
 
-    public function test_that_product_belongs_to_a_category(): void
+    public function test_that_product_belongs_to_a_category()
     {
         $this->assertInstanceOf(ProductCategory::class, $this->product->category);
         $this->assertEquals(ProductType::TOOL, $this->product->category->name);
     }
 
-    public function test_that_product_category_has_products(): void
+    public function test_that_product_category_has_products()
     {
         $this->assertTrue($this->category->products->contains($this->product));
         $this->assertEquals('Diagonal cutting plier', $this->product->name);

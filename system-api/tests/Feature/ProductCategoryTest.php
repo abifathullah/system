@@ -6,12 +6,10 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProductCategoryTest extends TestCase
 {
-    #[Test]
     protected function setUp(): void
     {
         parent::setUp();
@@ -19,8 +17,7 @@ class ProductCategoryTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
     }
 
-    #[Test]
-    public function it_can_create_a_product_category(): void
+    public function test_can_create_a_product_category()
     {
         $response = $this->postJson('/api/product-categories', [
             'name' => 'Scanner',
@@ -34,8 +31,7 @@ class ProductCategoryTest extends TestCase
         $this->assertDatabaseHas('product_categories', ['name' => 'Scanner']);
     }
 
-    #[Test]
-    public function it_can_update_a_product_category(): void
+    public function test_can_update_a_product_category()
     {
         $productCategory = ProductCategory::factory()->create([
             'name' => 'Scanner',
@@ -55,8 +51,7 @@ class ProductCategoryTest extends TestCase
         ]);
     }
 
-    #[Test]
-    public function it_can_delete_a_product_category(): void
+    public function test_can_delete_a_product_category()
     {
         $productCategory = ProductCategory::factory()->create([
             'name' => 'Scanner',
@@ -69,8 +64,7 @@ class ProductCategoryTest extends TestCase
         $this->assertSoftDeleted('product_categories', ['id' => $productCategory->id]);
     }
 
-    #[Test]
-    public function it_can_show_a_product_category_with_product(): void
+    public function test_can_show_a_product_category_with_product()
     {
         $productCategory = ProductCategory::factory()->create([
             'name' => 'Scanner',
@@ -95,8 +89,7 @@ class ProductCategoryTest extends TestCase
             ]);
     }
 
-    #[Test]
-    public function it_can_list_product_category_with_products(): void
+    public function test_can_list_product_category_with_products()
     {
         $productCategory = ProductCategory::factory()->create([
             'name' => 'Scanner',

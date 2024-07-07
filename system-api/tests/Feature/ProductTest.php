@@ -6,12 +6,10 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
-use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
-    #[Test]
     protected function setUp(): void
     {
         parent::setUp();
@@ -19,8 +17,7 @@ class ProductTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
     }
 
-    #[Test]
-    public function it_can_create_a_product(): void
+    public function test_can_create_a_product()
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
 
@@ -40,8 +37,7 @@ class ProductTest extends TestCase
         $this->assertDatabaseHas('products', ['name' => 'ScanTool']);
     }
 
-    #[Test]
-    public function it_can_update_a_product(): void
+    public function test_can_update_a_product()
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
         $product = Product::factory()->create([
@@ -68,8 +64,7 @@ class ProductTest extends TestCase
         $this->assertDatabaseHas('products', ['name' => 'ScanTool Pro']);
     }
 
-    #[Test]
-    public function it_can_delete_a_product(): void
+    public function test_can_delete_a_product()
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
         $product = Product::factory()->create([
@@ -84,8 +79,7 @@ class ProductTest extends TestCase
         $this->assertSoftDeleted('products', ['id' => $product->id]);
     }
 
-    #[Test]
-    public function it_can_show_a_product(): void
+    public function test_can_show_a_product()
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
         $product = Product::factory()->create([
@@ -105,8 +99,7 @@ class ProductTest extends TestCase
             ]);
     }
 
-    #[Test]
-    public function it_can_list_products_with_category(): void
+    public function test_can_list_products_with_category()
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
         $products = Product::factory()->count(3)->create([
@@ -119,5 +112,15 @@ class ProductTest extends TestCase
             ->assertJsonStructure([
                 '*' => ['id', 'name', 'product_category_id'],
             ]);
+    }
+
+    public function test_returns_error_on_product_creation_requires_valid_data()
+    {
+        $response = $this->post('/api/products', [
+            'name' => '',
+            'price' => 'invalid',
+        ]);
+
+        $response->assertSessionHasErrors(['name', 'price']);
     }
 }
