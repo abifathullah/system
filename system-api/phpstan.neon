@@ -1,0 +1,18 @@
+includes:
+    - ./vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: max
+
+    paths:
+        - app/
+        - database/
+        - routes/
+        - resources/views/
+        - tests/
+
+    excludePaths:
+        - %rootDir%/../../../vendor
+
+    bootstrapFiles:
+        - %rootDir%/../../../bootstrap/app.php
