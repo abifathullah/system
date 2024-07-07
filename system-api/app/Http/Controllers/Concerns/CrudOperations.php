@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Concerns;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 trait CrudOperations
 {
@@ -16,8 +16,9 @@ trait CrudOperations
     public function index(Request $request): JsonResponse
     {
         $with = $request->query('with', $this->with);
-        $withArray = $with ? explode(',', $with) : null;
-        return $this->fetchAll(new $this->model, $withArray);
+        $withArray = $with ? (is_array($with) ? $with : explode(',', $with)) : null;
+        $modelInstance = new $this->model();
+        return $this->fetchAll($modelInstance, $withArray);
     }
 
     /**
@@ -30,7 +31,7 @@ trait CrudOperations
     {
         $validatedData = $request->validate($this->rules());
 
-        $modelInstance = $this->model::create($validatedData);
+        $modelInstance = (new $this->model())->create($validatedData);
 
         return response()->json($modelInstance, 201);
     }
@@ -45,9 +46,9 @@ trait CrudOperations
     public function show(Request $request, $id): JsonResponse
     {
         $with = $request->query('with', $this->with);
-        $withArray = $with ? explode(',', $with) : null;
+        $withArray = $with ? (is_array($with) ? $with : explode(',', $with)) : null;
 
-        $query = $this->model::query();
+        $query = (new $this->model())->newQuery();
 
         if ($withArray) {
             $query->with($withArray);
@@ -55,7 +56,7 @@ trait CrudOperations
 
         $modelInstance = $query->find($id);
 
-        if (!$modelInstance) {
+        if (! $modelInstance) {
             return response()->json(['message' => 'Resource not found'], 404);
         }
 
@@ -73,7 +74,7 @@ trait CrudOperations
     {
         $validatedData = $request->validate($this->rules());
 
-        $modelInstance = $this->model::findOrFail($id);
+        $modelInstance = (new $this->model())->findOrFail($id);
 
         $modelInstance->update($validatedData);
 
@@ -88,7 +89,8 @@ trait CrudOperations
      */
     public function destroy($id): JsonResponse
     {
-        $this->model::findOrFail($id)->delete();
+        $modelInstance = (new $this->model())->findOrFail($id);
+        $modelInstance->delete();
 
         return response()->json(null, 204);
     }

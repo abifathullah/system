@@ -16,7 +16,7 @@ class ProductCategoryController extends Controller
     /**
      * Validation rules.
      *
-     * @return array
+     * @return array<string>
      */
     protected function rules(): array
     {

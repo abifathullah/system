@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\CrudOperations;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 
 class Controller extends BaseController
 {
@@ -66,8 +66,8 @@ class Controller extends BaseController
     /**
      * Retrieve all instances of the given model.
      *
-     * @param Model $model
-     * @param string[]|null $with
+     * @param  Model  $model
+     * @param  string[]|null  $with
      * @return JsonResponse
      */
     protected function fetchAll(Model $model, ?array $with = null): JsonResponse
@@ -81,5 +81,15 @@ class Controller extends BaseController
         $instances = $query->get();
 
         return response()->json($instances, 200);
+    }
+
+    /**
+     * Define the validation rules for the model.
+     *
+     * @return array<string>
+     */
+    protected function rules(): array
+    {
+        return [];
     }
 }

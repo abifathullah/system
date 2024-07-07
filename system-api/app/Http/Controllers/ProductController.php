@@ -14,7 +14,7 @@ class ProductController extends Controller
     /**
      * Validation rules.
      *
-     * @return array<mixed>
+     * @return array<string>
      */
     protected function rules(): array
     {

@@ -72,9 +72,6 @@ php artisan phpstan
 ````
 3. Run phpunit test
 ````
-php artisan route:cache
-php artisan config:cache
 php artisan test
-php artisan cache:clear
 ````
 - Run `php artisan cache:clear` to clear test result.

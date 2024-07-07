@@ -16,7 +16,7 @@ Route::namespace('App\Http\Controllers')->group(function () {
         Route::controller('ProductCategoryController')->group(function () {
             Route::apiResource('/product-categories', 'ProductCategoryController');
         });
-        
+
         Route::controller('ProductController')->group(function () {
             Route::apiResource('/products', 'ProductController');
             Route::get('/products-filter', 'filter');
