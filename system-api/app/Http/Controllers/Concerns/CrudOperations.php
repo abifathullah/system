@@ -17,7 +17,9 @@ trait CrudOperations
     {
         $with = $request->query('with', $this->with);
         $withArray = $with ? (is_array($with) ? $with : explode(',', $with)) : null;
+
         $modelInstance = new $this->model();
+
         return $this->fetchAll($modelInstance, $withArray);
     }
 
@@ -30,7 +32,6 @@ trait CrudOperations
     public function store(Request $request): JsonResponse
     {
         $validatedData = $request->validate($this->rules());
-
         $modelInstance = (new $this->model())->create($validatedData);
 
         return response()->json($modelInstance, 201);
@@ -73,9 +74,7 @@ trait CrudOperations
     public function update(Request $request, $id): JsonResponse
     {
         $validatedData = $request->validate($this->rules());
-
         $modelInstance = (new $this->model())->findOrFail($id);
-
         $modelInstance->update($validatedData);
 
         return response()->json($modelInstance, 200);
