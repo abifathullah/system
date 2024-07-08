@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias(['throttle'], \Illuminate\Routing\Middleware\ThrottleRequests::class);
+        $middleware->alias(['secure.headers'], \App\Http\Middleware\SecureHeaders::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

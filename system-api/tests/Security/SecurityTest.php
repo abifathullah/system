@@ -41,11 +41,12 @@ class SecurityTest extends TestCase
 
     public function test_secure_headers()
     {
-        $response = $this->get('/');
+        $response = $this->get('/api/versions/base');
 
-        $response->assertHeader('X-Frame-Options', 'DENY');
         $response->assertHeader('X-Content-Type-Options', 'nosniff');
+        $response->assertHeader('X-Frame-Options', 'DENY');
         $response->assertHeader('X-XSS-Protection', '1; mode=block');
+        $response->assertHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
         $response->assertHeader('Referrer-Policy', 'no-referrer-when-downgrade');
         $response->assertHeader('Content-Security-Policy', "default-src 'self'");
     }

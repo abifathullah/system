@@ -19,9 +19,13 @@ class AuthTest extends TestCase
         ]);
 
         $response->assertStatus(200)
-            ->assertJson([
-                'token' => $response['token'],
+            ->assertJsonStructure([
+                'token',
             ]);
+
+        $data = $response->decodeResponseJson();
+
+        $this->assertNotEmpty($data['token']);
 
         $this->assertAuthenticatedAs($user);
     }
