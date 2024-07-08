@@ -7,7 +7,10 @@ use Tests\TestCase;
 
 class SecurityTest extends TestCase
 {
-    public function test_sql_injection()
+    /**
+     * @return void
+     */
+    public function test_sql_injection(): void
     {
         $userCount = User::count();
         $user = User::factory()->create();
@@ -17,7 +20,10 @@ class SecurityTest extends TestCase
         $this->assertEquals($userCount += 1, User::count());
     }
 
-    public function test_xss_protection()
+    /**
+     * @return void
+     */
+    public function test_xss_protection(): void
     {
         $user = User::factory()->create(['name' => '<script>alert("XSS")</script>']);
         $response = $this->actingAs($user)->get('/profile');
@@ -25,7 +31,10 @@ class SecurityTest extends TestCase
         $response->assertDontSee('<script>alert("XSS")</script>', false);
     }
 
-    public function test_rate_limiting()
+    /**
+     * @return void
+     */
+    public function test_rate_limiting(): void
     {
         $user = User::factory()->create();
 
@@ -40,7 +49,10 @@ class SecurityTest extends TestCase
         $response->assertStatus(429); // Too many requests
     }
 
-    public function test_secure_headers()
+    /**
+     * @return void
+     */
+    public function test_secure_headers(): void
     {
         $response = $this->get('/api/versions/base');
 

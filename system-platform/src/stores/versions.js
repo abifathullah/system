@@ -13,7 +13,7 @@ export const useVersionsStore = defineStore('versions', {
     actions: {
         async fetchVersions() {
             try {
-                const response = await axios.get('/api/versions');
+                const response = await axios.get('/api/versions/base');
                 this.phpVersion = response.data.php_version;
                 this.laravelVersion = response.data.laravel_version;
             } catch (error) {

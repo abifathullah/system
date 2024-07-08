@@ -17,7 +17,10 @@ class ProductTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
     }
 
-    public function test_can_create_a_product()
+    /**
+     * @return void
+     */
+    public function test_can_create_a_product(): void
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
 
@@ -37,7 +40,10 @@ class ProductTest extends TestCase
         $this->assertDatabaseHas('products', ['name' => 'ScanTool']);
     }
 
-    public function test_can_update_a_product()
+    /**
+     * @return void
+     */
+    public function test_can_update_a_product(): void
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
         $product = Product::factory()->create([
@@ -64,7 +70,10 @@ class ProductTest extends TestCase
         $this->assertDatabaseHas('products', ['name' => 'ScanTool Pro']);
     }
 
-    public function test_can_delete_a_product()
+    /**
+     * @return void
+     */
+    public function test_can_delete_a_product(): void
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
         $product = Product::factory()->create([
@@ -79,7 +88,10 @@ class ProductTest extends TestCase
         $this->assertSoftDeleted('products', ['id' => $product->id]);
     }
 
-    public function test_can_show_a_product()
+    /**
+     * @return void
+     */
+    public function test_can_show_a_product(): void
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
         $product = Product::factory()->create([
@@ -99,7 +111,10 @@ class ProductTest extends TestCase
             ]);
     }
 
-    public function test_can_list_products_with_category()
+    /**
+     * @return void
+     */
+    public function test_can_list_products_with_category(): void
     {
         $category = ProductCategory::factory()->create(['name' => 'Scanner']);
         $products = Product::factory()->count(3)->create([
@@ -114,7 +129,10 @@ class ProductTest extends TestCase
             ]);
     }
 
-    public function test_returns_error_on_product_creation_requires_valid_data()
+    /**
+     * @return void
+     */
+    public function test_returns_error_on_product_creation_requires_valid_data(): void
     {
         $response = $this->post('/api/products', [
             'name' => '',

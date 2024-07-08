@@ -7,7 +7,10 @@ use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    public function test_returns_token_on_login()
+    /**
+     * @return void
+     */
+    public function test_returns_token_on_login(): void
     {
         $user = User::factory()->create([
             'password' => bcrypt($password = 'test123'),

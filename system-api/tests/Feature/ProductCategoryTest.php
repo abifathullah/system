@@ -17,6 +17,9 @@ class ProductCategoryTest extends TestCase
         Sanctum::actingAs(User::factory()->create());
     }
 
+    /**
+     * @return void
+     */
     public function test_can_create_a_product_category()
     {
         $response = $this->postJson('/api/product-categories', [
@@ -31,7 +34,10 @@ class ProductCategoryTest extends TestCase
         $this->assertDatabaseHas('product_categories', ['name' => 'Scanner']);
     }
 
-    public function test_can_update_a_product_category()
+    /**
+     * @return void
+     */
+    public function test_can_update_a_product_category(): void
     {
         $productCategory = ProductCategory::factory()->create([
             'name' => 'Scanner',
@@ -51,7 +57,10 @@ class ProductCategoryTest extends TestCase
         ]);
     }
 
-    public function test_can_delete_a_product_category()
+    /**
+     * @return void
+     */
+    public function test_can_delete_a_product_category(): void
     {
         $productCategory = ProductCategory::factory()->create([
             'name' => 'Scanner',
@@ -64,7 +73,10 @@ class ProductCategoryTest extends TestCase
         $this->assertSoftDeleted('product_categories', ['id' => $productCategory->id]);
     }
 
-    public function test_can_show_a_product_category_with_product()
+    /**
+     * @return void
+     */
+    public function test_can_show_a_product_category_with_product(): void
     {
         $productCategory = ProductCategory::factory()->create([
             'name' => 'Scanner',
@@ -89,7 +101,10 @@ class ProductCategoryTest extends TestCase
             ]);
     }
 
-    public function test_can_list_product_category_with_products()
+    /**
+     * @return void
+     */
+    public function test_can_list_product_category_with_products(): void
     {
         $productCategory = ProductCategory::factory()->create([
             'name' => 'Scanner',

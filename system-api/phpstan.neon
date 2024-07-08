@@ -10,8 +10,10 @@ parameters:
         - routes/
         - resources/views/
         - tests/
-    
-    parallel: false
+
+    parallel:
+        maximumNumberOfProcesses: 8
+        processTimeout: 600.0
 
     excludePaths:
         - %rootDir%/../../../vendor
