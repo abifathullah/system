@@ -10,6 +10,8 @@ parameters:
         - routes/
         - resources/views/
         - tests/
+    
+    parallel: false
 
     excludePaths:
         - %rootDir%/../../../vendor
