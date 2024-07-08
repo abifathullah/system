@@ -14,7 +14,7 @@ class SecurityTest extends TestCase
         $response = $this->actingAs($user)->get('/api/users?search=1 OR 1=1');
 
         $response->assertStatus(200);
-        $this->assertEquals($userCount+=1, User::count());
+        $this->assertEquals($userCount += 1, User::count());
     }
 
     public function test_xss_protection()
@@ -49,6 +49,6 @@ class SecurityTest extends TestCase
         $response->assertHeader('X-XSS-Protection', '1; mode=block');
         $response->assertHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
         $response->assertHeader('Referrer-Policy', 'no-referrer-when-downgrade');
-        $response->assertHeader('Content-Security-Policy', "default-src 'self'");
+        $response->assertHeader('Content-Security-Policy', 'default-src \'self\'');
     }
 }

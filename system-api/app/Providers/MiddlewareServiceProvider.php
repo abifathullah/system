@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Routing\Router;
 use App\Http\Middleware\SecureHeaders;
+use Illuminate\Routing\Router;
+use Illuminate\Support\ServiceProvider;
 
 class MiddlewareServiceProvider extends ServiceProvider
 {
