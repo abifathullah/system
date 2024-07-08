@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Concerns;
 
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Helpers\ResponseHelper;
 
 trait CrudOperations
 {
