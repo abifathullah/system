@@ -9,11 +9,12 @@ class SecurityTest extends TestCase
 {
     public function test_sql_injection()
     {
+        $userCount = User::count();
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get('/api/users?search=1 OR 1=1');
 
         $response->assertStatus(200);
-        $this->assertDatabaseCount('users', 1);
+        $this->assertEquals($userCount+=1, User::count());
     }
 
     public function test_xss_protection()
