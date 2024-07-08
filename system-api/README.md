@@ -8,7 +8,8 @@ Base API code test which consists:
     - Product list
     - Product view
     - Add product
-    - Delete product
+    - Update product
+    - Delete product (Soft delete)
 - About
     - PHP Version
     - Laravel Version
@@ -74,4 +75,3 @@ php artisan phpstan
 ````
 php artisan test
 ````
-- Run `php artisan cache:clear` to clear test result.

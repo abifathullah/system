@@ -10,7 +10,7 @@ This is the platform for the application.
 docker compose up -d
 ````
 
-2. Compose Docker
+2. Install package
 ````
 npm install
 ````
