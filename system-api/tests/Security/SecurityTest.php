@@ -26,13 +26,16 @@ class SecurityTest extends TestCase
 
     public function test_rate_limiting()
     {
+        $user = User::factory()->create();
+
+        // Perform 60 requests to reach the rate limit
         for ($i = 0; $i < 60; $i++) {
-            $response = $this->post('/login', [
-                'email' => 'test@example.com',
-                'password' => 'wrong-password',
-            ]);
+            $response = $this->actingAs($user, 'sanctum')->get('/api/users');
+            $response->assertStatus(200);
         }
 
+        // The 61st request should fail with a 429 status code
+        $response = $this->actingAs($user, 'sanctum')->get('/api/users');
         $response->assertStatus(429); // Too many requests
     }
 
@@ -43,5 +46,7 @@ class SecurityTest extends TestCase
         $response->assertHeader('X-Frame-Options', 'DENY');
         $response->assertHeader('X-Content-Type-Options', 'nosniff');
         $response->assertHeader('X-XSS-Protection', '1; mode=block');
+        $response->assertHeader('Referrer-Policy', 'no-referrer-when-downgrade');
+        $response->assertHeader('Content-Security-Policy', "default-src 'self'");
     }
 }
