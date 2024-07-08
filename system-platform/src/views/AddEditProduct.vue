@@ -72,17 +72,19 @@ export default {
         async fetchProduct() {
             try {
                 const response = await axios.get(`/api/products/${this.$route.params.id}`);
-                this.product = response.data;
+                this.product = response.data.data;
+                const toast = useToast();
+                toast.success(response.data.message);
             } catch (error) {
                 const toast = useToast();
-                toast.error('Error fetching product');
+                toast.error(error.response.data.message);
             }
         },
 
         async fetchCategories() {
             try {
                 const response = await axios.get('/api/product-categories');
-                this.categories = response.data;
+                this.categories = response.data.data.original;
             } catch (error) {
                 const toast = useToast();
                 toast.error('Error fetching categories');
@@ -109,7 +111,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-/* Your scoped styles here */
-</style>

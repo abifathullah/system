@@ -117,17 +117,17 @@ export default {
                     },
                 })
                 .then((response) => {
-                    if (response.data.message) {
-                        this.checkInterval = setInterval(this.checkProductsData, 5000);
-                    } else {
-                        this.products = response.data;
-                        this.filteredProducts = this.products;
-                        this.loading = false;
-                    }
+                    this.products = response.data.data.original;
+                    this.filteredProducts = this.products;
+                    const toast = useToast();
+                    toast.success(response.data.message);
+                    this.loading = false;
                 })
                 .catch((error) => {
                     this.error = true;
-                    console.error('Error fetching products:', error);
+                    const toast = useToast();
+                    toast.error(error.response.data.message);
+                    this.loading = false;
                 });
         },
 
@@ -193,15 +193,14 @@ export default {
             axios
                 .get(`/api/products-filter`, { params })
                 .then((response) => {
-                    const toast = useToast();
-                    toast.success(response.data.message || 'Products filtered successfully');
                     this.filteredProducts = response.data.data || [];
+                    const toast = useToast();
+                    toast.success(response.data.message);
                 })
                 .catch((error) => {
                     this.error = true;
                     const toast = useToast();
-                    toast.error('Error filtering products');
-                    console.error('Error filtering products:', error);
+                    toast.error(error.data.message);
                 });
         },
 
@@ -225,12 +224,6 @@ export default {
                 currency: 'USD',
             }).format(value);
         },
-    },
-
-    beforeUnmount() {
-        if (this.checkInterval) {
-            clearInterval(this.checkInterval);
-        }
     },
 };
 </script>

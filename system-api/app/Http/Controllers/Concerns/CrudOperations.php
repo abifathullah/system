@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Concerns;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Helpers\ResponseHelper;
 
 trait CrudOperations
 {
@@ -20,7 +21,9 @@ trait CrudOperations
 
         $modelInstance = new $this->model();
 
-        return $this->fetchAll($modelInstance, $withArray);
+        $data = $this->fetchAll($modelInstance, $withArray);
+
+        return ResponseHelper::success($data, 'Resources retrieved successfully');
     }
 
     /**
@@ -34,7 +37,7 @@ trait CrudOperations
         $validatedData = $request->validate($this->rules());
         $modelInstance = (new $this->model())->create($validatedData);
 
-        return response()->json($modelInstance, 201);
+        return ResponseHelper::success($modelInstance, 'Resource created successfully', 201);
     }
 
     /**
@@ -58,10 +61,10 @@ trait CrudOperations
         $modelInstance = $query->find($id);
 
         if (! $modelInstance) {
-            return response()->json(['message' => 'Resource not found'], 404);
+            return ResponseHelper::error('Resource not found', 404);
         }
 
-        return response()->json($modelInstance, 200);
+        return ResponseHelper::success($modelInstance, 'Resource retrieved successfully');
     }
 
     /**
@@ -77,7 +80,7 @@ trait CrudOperations
         $modelInstance = (new $this->model())->findOrFail($id);
         $modelInstance->update($validatedData);
 
-        return response()->json($modelInstance, 200);
+        return ResponseHelper::success($modelInstance, 'Resource updated successfully');
     }
 
     /**
@@ -91,6 +94,6 @@ trait CrudOperations
         $modelInstance = (new $this->model())->findOrFail($id);
         $modelInstance->delete();
 
-        return response()->json(null, 204);
+        return ResponseHelper::success(null, 'Resource deleted successfully', 204);
     }
 }

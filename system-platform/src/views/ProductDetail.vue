@@ -36,7 +36,6 @@ export default {
     data() {
         return {
             product: null,
-            checkInterval: null,
         };
     },
 
@@ -53,32 +52,13 @@ export default {
                     },
                 })
                 .then((response) => {
-                    if (response.data.message) {
-                        this.checkInterval = setInterval(this.checkProductData, 5000);
-                    } else {
-                        this.product = response.data;
-                    }
+                    this.product = response.data.data;
+                    const toast = useToast();
+                    toast.success(response.data.message);
                 })
                 .catch((error) => {
-                    console.error('Error fetching product:', error);
-                });
-        },
-
-        checkProductData() {
-            axios
-                .get(`/api/products/${this.$route.params.id}`, {
-                    params: {
-                        with: 'category',
-                    },
-                })
-                .then((response) => {
-                    if (!response.data.message) {
-                        this.product = response.data;
-                        clearInterval(this.checkInterval);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error checking product data:', error);
+                    const toast = useToast();
+                    toast.error(error.response.data.message);
                 });
         },
 
@@ -91,10 +71,9 @@ export default {
                         toast.success('Product deleted successfully');
                         this.goBack();
                     })
-                    .catch((error) => {
+                    .catch(() => {
                         const toast = useToast();
                         toast.error('Error deleting product');
-                        console.error('Error deleting product:', error);
                     });
             }
         },
@@ -106,12 +85,6 @@ export default {
         goBack() {
             this.$router.push({ name: 'Home' });
         },
-    },
-
-    beforeUnmount() {
-        if (this.checkInterval) {
-            clearInterval(this.checkInterval);
-        }
     },
 };
 </script>

@@ -18,6 +18,7 @@
 <script>
 import axios from '@/axios';
 import authService from '@/../services/auth';
+import { useToast } from 'vue-toastification';
 
 export default {
     data() {
@@ -44,8 +45,8 @@ export default {
 
                 this.$router.push({ name: 'Home' });
             } catch (error) {
-                console.error('Login error:', error.response ? error.response.data : error.message);
-                alert('Invalid credentials');
+                const toast = useToast();
+                toast.error(error.response.data.message);
             }
         },
     },
