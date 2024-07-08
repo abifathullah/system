@@ -33,8 +33,10 @@ class ProductTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJson([
-                'name' => 'ScanTool',
-                'product_category_id' => $category->id,
+                'data' => [
+                    'name' => 'ScanTool',
+                    'product_category_id' => $category->id,
+                ],
             ]);
 
         $this->assertDatabaseHas('products', ['name' => 'ScanTool']);
@@ -62,9 +64,11 @@ class ProductTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'name' => 'ScanTool Pro',
-                'product_category_id' => $newCategory->id,
-                'price' => 750,
+                'data' => [
+                    'name' => 'ScanTool Pro',
+                    'product_category_id' => $newCategory->id,
+                    'price' => 750,
+                ],
             ]);
 
         $this->assertDatabaseHas('products', ['name' => 'ScanTool Pro']);
@@ -103,10 +107,12 @@ class ProductTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'name' => 'ScanTool',
-                'product_category_id' => $category->id,
-                'category' => [
-                    'name' => 'Scanner',
+                'data' => [
+                    'name' => 'ScanTool',
+                    'product_category_id' => $category->id,
+                    'category' => [
+                        'name' => 'Scanner',
+                    ],
                 ],
             ]);
     }
@@ -125,7 +131,11 @@ class ProductTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                '*' => ['id', 'name', 'product_category_id'],
+                'data' => [
+                    'original' => [
+                        '*' => ['id', 'name', 'product_category_id'],
+                    ],
+                ],
             ]);
     }
 
